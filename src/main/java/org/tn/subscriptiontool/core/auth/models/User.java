@@ -1,56 +1,96 @@
 package org.tn.subscriptiontool.core.auth.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table
-public class User {
+@Table(name = "_user")
+@EntityListeners(AuditingEntityListener.class)
+public class User implements UserDetails, Principal {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_sequence")
-    @SequenceGenerator(name = "expense_sequence", sequenceName = "expense_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ID;
 
-    @NotNull
-    private String userName;
+    @Column(nullable = false)
+    private String firstName;
 
-    @NotNull
-    private String password;
+    @Column(nullable = false)
+    private String lastName;
 
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String email;
 
-    public User() {}
+    @Column(unique = true)
+    private String phoneNumber;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private String password;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private boolean enabled;
 
-    public String getPassword() {
-        return password;
-    }
+    private boolean accountLocked;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Roles> roles;
 
-    public String getUserName() {
-        return userName;
-    }
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime joinedDate;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    @CreatedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
-    public String getEmail() {
+    @Override
+    public String getUsername() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return this.roles
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !accountLocked;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public String getName() {
+        return firstName + " " + lastName;
     }
 }

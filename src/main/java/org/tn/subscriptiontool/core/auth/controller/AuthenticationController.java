@@ -1,32 +1,44 @@
 package org.tn.subscriptiontool.core.auth.controller;
 
-
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.tn.subscriptiontool.core.auth.models.User;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.tn.subscriptiontool.core.auth.requests.ActivationRequest;
+import org.tn.subscriptiontool.core.auth.requests.AuthenticationRequest;
+import org.tn.subscriptiontool.core.auth.requests.RegistrationRequest;
+import org.tn.subscriptiontool.core.auth.services.AuthenticationService;
+
 
 @RestController
-@RequestMapping(value = "api/user")
+@RequestMapping("/account")
+@RequiredArgsConstructor
+@Tag(name = "Authentication", description = "API for handling authentication and account-related actions.")
 public class AuthenticationController {
+    private final AuthenticationService authenticationService;
 
-    @PostMapping(value = "/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.ok(null);
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(
+            @RequestBody @Valid RegistrationRequest request
+    ) throws MessagingException {
+        return authenticationService.register(request);
     }
 
-    @PostMapping(value = "/login")
-    public ResponseEntity<User> login(@RequestBody User user) {
-        return ResponseEntity.ok(null);
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticate(
+            @RequestBody @Valid AuthenticationRequest authenticationRequest
+    ) {
+        return authenticationService.authenticate(authenticationRequest);
     }
 
-    @GetMapping(value = "/get/{id}")
-    public ResponseEntity<User> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(null);
+    @PostMapping("/activate")
+    public ResponseEntity<?> activate(@RequestBody @Valid ActivationRequest request) throws MessagingException {
+        return authenticationService.activateAccount(request);
     }
-
-    @GetMapping(value = "/get/{userName}")
-    public ResponseEntity<User> getByUserName(@PathVariable String userName) {
-        return ResponseEntity.ok(null);
-    }
-
 }

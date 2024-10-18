@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clothing_postgres
+    username: ${CLOTHING_DB_USERNAME}
+    password: ${CLOTHING_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: localhost
+    port: 1025
+    username: ${EMAIL_USER}
+    password: ${EMAIL_PASS}
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+application:
+  security:
+    jwt:
+      secret-key: ${JSON_KEY}
+      expiration: 8640000
+    mailing:
+      from: zxpower@yahoo.com
+      frontend:
+        activation-url: Activate
+  host:
+    domain: http://127.0.0.1
+    frontend:
+      port: 5173
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate: DEBUG
+
+server:
+  port: 8000
