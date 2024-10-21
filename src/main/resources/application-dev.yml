@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/clothing_postgres
-    username: ${CLOTHING_DB_USERNAME}
-    password: ${CLOTHING_DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -14,10 +14,10 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
-    host: localhost
-    port: 1025
-    username: ${EMAIL_USER}
-    password: ${EMAIL_PASS}
+    host: ${MAILDEV_HOST}
+    port: ${MAILDEV_SMTP_PORT}
+    username: ${MAILDEV_USER}
+    password: ${MAILDEV_PASS}
     properties:
       mail:
         smtp:
@@ -32,15 +32,15 @@ application:
   security:
     jwt:
       secret-key: ${JSON_KEY}
-      expiration: 8640000
+      expiration: ${JSON_KEY_EXPIRATION}
     mailing:
-      from: zxpower@yahoo.com
+      from: ${MAILDEV_FROM_ADDRESS}
       frontend:
         activation-url: Activate
   host:
-    domain: http://127.0.0.1
+    domain: ${DOMAIN}
     frontend:
-      port: 5173
+      port: ${FRONTEND_PORT}
 
 logging:
   level:
@@ -48,4 +48,4 @@ logging:
     org.hibernate: DEBUG
 
 server:
-  port: 8000
+  port: ${BACKEND_PORT}

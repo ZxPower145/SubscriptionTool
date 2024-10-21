@@ -1,0 +1,31 @@
+services:
+  postgres:
+    container_name: subtool-sql-dev
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: subtool
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      - subtool-dev
+    restart: unless-stopped
+  mail-dev:
+    container_name: subtool-maildev
+    image: maildev/maildev
+    ports:
+      - ${MAILDEV_WEB_PORT}:${MAILDEV_WEB_PORT}
+      - ${MAILDEV_SMTP_PORT}:${MAILDEV_SMTP_PORT}
+
+
+networks:
+  subtool-dev:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
