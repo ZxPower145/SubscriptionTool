@@ -51,7 +51,7 @@ public class User implements UserDetails, Principal {
     private boolean accountLocked;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Roles> roles;
+    private Set<Role> roles;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Roles {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long ID;
