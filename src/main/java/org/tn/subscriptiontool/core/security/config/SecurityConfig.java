@@ -24,6 +24,7 @@ public class SecurityConfig {
     private final AuthenticationProvider daoAuthenticationProvider;
     private final EmailTokenAuthenticationProvider emailTokenAuthenticationProvider;
     private final JwtFilter jwtFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -50,6 +51,7 @@ public class SecurityConfig {
                             .authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
