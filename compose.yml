@@ -21,6 +21,27 @@ services:
       - ${MAILDEV_WEB_PORT}:${MAILDEV_WEB_PORT}
       - ${MAILDEV_SMTP_PORT}:${MAILDEV_SMTP_PORT}
 
+  app:
+    container_name: subtool-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      MAILDEV_HOST: mail-dev
+      MAILDEV_SMTP_PORT: ${MAILDEV_SMTP_PORT}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - mail-dev
+    networks:
+      - subtool-dev
+    restart: unless-stopped
 
 networks:
   subtool-dev:
