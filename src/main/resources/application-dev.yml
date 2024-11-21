@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: ${MAILDEV_HOST}
+    port: ${MAILDEV_SMTP_PORT}
+    username: ${MAILDEV_USER}
+    password: ${MAILDEV_PASS}
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+application:
+  security:
+    jwt:
+      secret-key: ${JSON_KEY}
+      expiration: ${JSON_KEY_EXPIRATION}
+    mailing:
+      from: ${MAILDEV_FROM_ADDRESS}
+      frontend:
+        activation-url: Activate
+  host:
+    domain: ${DOMAIN}
+    frontend:
+      port: ${FRONTEND_PORT}
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate: DEBUG
+
+server:
+  port: ${BACKEND_PORT}

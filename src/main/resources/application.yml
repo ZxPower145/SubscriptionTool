@@ -1,29 +1,13 @@
 spring:
-  application:
-    name: SubscriptionTool
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 50MB
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/idea_generator
-    username: dbU
-    password: dbPass
+springdoc:
+  default-produces-media-type: application/json
 
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${G_CLIENT_ID}
-            client-secret: ${G_CLIENT_SECRET}
 server:
-  port: 8000
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-
+  servlet:
+    context-path: /api/v1

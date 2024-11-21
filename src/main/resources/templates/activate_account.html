@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Activation</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            background-color: lightgray;
+            font-family: "Trebuchet MS", sans-serif;
+        }
+
+        .container {
+            margin: 0;
+            padding: 10px;
+            width: 70%;
+            background-color: white;
+        }
+
+        .header {
+            font-size: 35px;
+            font-weight: bolder;
+        }
+
+        .greeting {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .subheader {
+            font-size: 16px;
+        }
+
+        .activation-code {
+            font-weight: bolder;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="header">Account Activation</h1>
+    <p class="greeting" th:text="'Hello ' + ${username} + ','"></p>
+    <p class="subheader">
+        Thank you for signing up! Please use the following code to activate your account:
+    </p>
+    <div class="activation-code"><span th:text="${activationCode}"></span></div>
+</div>
+</body>
+</html>
