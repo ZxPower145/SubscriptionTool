@@ -25,6 +25,7 @@ public class SecurityConfig {
     private final EmailTokenAuthenticationProvider emailTokenAuthenticationProvider;
     private final JwtFilter jwtFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,11 +34,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authenticationProvider(daoAuthenticationProvider)
                 .authenticationProvider(emailTokenAuthenticationProvider)
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(customOAuth2SuccessHandler)
+                        .defaultSuccessUrl("/account/login-success")
+                        .failureUrl("/account/login-failure"))
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers(
                             "/account/register",
                             "/account/login",
                             "/account/activate",
+                            "/account/login-success",
+                            "/account/login-failure",
+                            "/oauth2/**",
+                            "/login/oauth2/**",
                             "/v3/api-docs",
                             "/v3/api-docs/**",
                             "/swagger-resources",

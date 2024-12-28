@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.tn.subscriptiontool.core.security.models.Role;
 import org.tn.subscriptiontool.core.security.repository.RoleRepository;
-
 import java.time.LocalDateTime;
 
 
