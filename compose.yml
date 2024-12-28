@@ -10,17 +10,36 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - "${DB_PORT}:${DB_PORT}"
     networks:
       - subtool-dev
     restart: unless-stopped
+
   mail-dev:
     container_name: subtool-maildev
     image: maildev/maildev
     ports:
-      - ${MAILDEV_WEB_PORT}:${MAILDEV_WEB_PORT}
-      - ${MAILDEV_SMTP_PORT}:${MAILDEV_SMTP_PORT}
+      - "${MAILDEV_WEB_PORT}:${MAILDEV_WEB_PORT}"
+      - "${MAILDEV_SMTP_PORT}:${MAILDEV_SMTP_PORT}"
+    networks:
+      - subtool-dev
 
+  backend:
+    container_name: subtool-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=postgres
+      - MAILDEV_HOST=mail-dev
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    depends_on:
+      - postgres
+      - mail-dev
+    networks:
+      - subtool-dev
+    restart: unless-stopped
 
 networks:
   subtool-dev:

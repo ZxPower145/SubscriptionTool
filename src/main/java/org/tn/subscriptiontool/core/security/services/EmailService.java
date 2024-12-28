@@ -34,13 +34,7 @@ public class EmailService {
             String activationCode,
             String subject
     ) throws MessagingException {
-        String templateName;
-        if (emailTemplateName == null) {
-            templateName = "activate_account";
-        } else {
-            templateName = emailTemplateName.name();
-        }
-
+        String templateName = emailTemplateName != null ? emailTemplateName.getName() : "activate_account.html";
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
                 mimeMessage,

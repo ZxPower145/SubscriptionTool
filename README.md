@@ -1,18 +1,25 @@
 
 # Subscription Tool Auth
-Auth feauture using JWT Security Token.
-(Google OAuth 2.0 coming soon)
+Auth feauture using JWT Security Token / Google AUTH.
 
 
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file:
 
+APPLICATION:
+
+`DOMAIN`
+
+`BACKEND_PORT`
+
+`FRONTEND_PORT`
+
 DATABASE:
 
 `DB_NAME`
 
-`DB_HOST` *localhost*
+`DB_HOST` *postgres*
 
 `DB_PORT` *5432*
 
@@ -22,7 +29,7 @@ DATABASE:
 
 EMAIL:
 
-`MAILDEV_HOST` *localhost*
+`MAILDEV_HOST` *mail-dev*
 
 `MAILDEV_SMTP_PORT` *1025*
 
@@ -40,13 +47,13 @@ JWT:
 
 `JSON_KEY_EXPIRATION` *Exp time in seconds*
 
-HOST:
+OAUTH
 
-`DOMAIN`
+`OAUTH_CLIENT_ID`
 
-`BACKEND_PORT`
+`OAUTH_CLIENT_SECRET`
 
-`FRONTEND_PORT`
+`OAUTH_CLIENT_NAME`
 
 
 
@@ -56,6 +63,6 @@ HOST:
 To deploy this project run:
 
 ```bash
-  docker compose up
+  docker compose up --build
 ```
 
