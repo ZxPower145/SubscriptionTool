@@ -90,6 +90,11 @@ public class User implements UserDetails, Principal {
     }
 
     @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
     public String getName() {
         return firstName + " " + lastName;
     }
